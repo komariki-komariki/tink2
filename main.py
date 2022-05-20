@@ -4,55 +4,24 @@ import csv
 # from docxtpl import DocxTemplate
 import re
 from pprint import pprint
+from data import my_list_all, my_list_all_form, HEADERS, base_url
 
 values_list = []
 names_list = []
-my_list_all = ['full_name', 'short_name', 'inn', 'ogrn', 'kpp',
-               'date_of_registration', 'Legal_address', 'General_manager',
-               'Founders', 'Authorized_capital', 'date_of_registration_ifns',
-               'ifns', 'adress_ifns', 'reg_pfr',
-               'date_of_registration', 'name_pfr',
-               'reg_number_fss', 'date_of_registration_fss',
-               'name_fss']
-my_list_all_form = ['full_name', 'short_name', 'inn', 'ogrn', 'kpp',
-               'date_of_registration', 'Legal_address', 'General_manager',
-               'Founders', 'form', 'Authorized_capital', 'date_of_registration_ifns',
-               'ifns', 'adress_ifns', 'reg_pfr',
-               'date_of_registration', 'name_pfr',
-               'reg_number_fss', 'date_of_registration_fss',
-               'name_fss']
-HEADERS = {
-    'Cookie': '_ym_uid=1639148487334283574; _ym_d=1639149414; _ga=GA1.'
-              '2.528119004.1639149415; _gid=GA1.2.512914915.'
-              '1639149415; habr_web_home=ARTICLES_LIST_ALL; hl=ru; fl=ru;'
-              ' _ym_isad=2; __gads=ID=87f529752d2e0de1-'
-              '221b467103cd00b7:T=1639149409:S=ALNI_MYKvHcaV4SWfZmCb3_wXDx2olu6kw',
-    'Accept-Language': 'ru-RU,ru;q=0.9',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'same-origin',
-    'Sec-Fetch-User': '?1',
-    'Cache-Control': 'max-age=0',
-    'If-None-Match': 'W/"37433-+qZyNZhUgblOQJvD5vdmtE4BN6w"',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'
-                  '537.36 (KHTML, like Gecko) '
-                  'Chrome/96.0.4664.93 Safari/537.36',
-    'sec-ch-ua-mobile': '?0'
-}
-all_requisites = 'https://www.tinkoff.ru/business/contractor/legal/1026605616850/requisites/'
+
 ooo = [1165047052202, 1033500349618]
 
 
-def requisites():
-    url = 'https://www.tinkoff.ru/business/contractor/legal/1026605616850/requisites/'
+def requisites(ogrn):
+    url = base_url + f'{str(ogrn)}/requisites/'
     page = requests.get(url, headers=HEADERS).content
     soup = BeautifulSoup(page, "html.parser")
-    z = soup.find_all('div', class_='dmz9Oe')
-    y = soup.find_all('div', class_='gmz9Oe')
-    for t in y:
-        values_list.append(t.text.strip().replace('\xa0',' ').replace('\n','').replace('\r',''))
-    for x in z:
-        names_list.append(x.text.strip().replace('\n','').replace('\xa0','').replace('\r',''))
+    names = soup.find_all('div', class_='dmz9Oe')
+    values = soup.find_all('div', class_='gmz9Oe')
+    for v in values:
+        values_list.append(v.text.strip().replace('\xa0',' ').replace('\n','').replace('\r',''))
+    for name in names:
+        names_list.append(name.text.strip().replace('\n','').replace('\xa0','').replace('\r',''))
     for i in names_list:
         if i == "":
             names_list.remove(i)
@@ -104,5 +73,24 @@ def union_dict():
         return my_dict
 
 
-requisites()
-pprint(union_dict())
+def okved(ogrn):
+    okv_list = []
+    url = base_url + str(ogrn)
+    page = requests.get(url, headers=HEADERS).content
+    soup = BeautifulSoup(page, "html.parser")
+    data = soup.find_all('p', class_='imz9Oe')
+    for head_okved in data:
+        okv_list.append(head_okved.text.strip().replace('\xa0',' ').replace('\n','').replace('\r',''))
+    a = str(okv_list[0]).capitalize()
+    okv_dict = {'okved': a}
+    return okv_dict
+
+
+def main():
+    requisites(1033500349618)
+    pprint(union_dict())
+    print(okved(1033500349618))
+
+
+if __name__ == '__main__':
+    main()
