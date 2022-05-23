@@ -10,7 +10,7 @@ values_list = []
 names_list = []
 
 ooo = [1165047052202, 1033500349618]
-
+ogrn = input(str('введите огрн'))
 
 def requisites(ogrn):
     url = base_url + f'{str(ogrn)}/requisites/'
@@ -41,37 +41,29 @@ def word():
     doc.save("ИНН.docx")
 
 
-def union_dict():
-    if 'Форма' in names_list:
-        if len(names_list) == len(values_list):
-            my_dict = dict(zip(my_list_all_form, values_list))
-        else:
-            a = len(values_list) - len(names_list)
-            b = []
-            for i in range(a+1):
-                k = 8 + i
-                b.append(values_list[k])
-            for z in range(a):
-                values_list.pop(8)
-            values_list[8] = ";\n".join(b)
-            my_dict = dict(zip(my_list_all, values_list))
-        return my_dict
+def check_form(list):
+    if 'Форма' in list:
+        name_list = my_list_all_form
+        return name_list
     else:
-        if len(names_list) == len(values_list):
-            my_dict = dict(zip(my_list_all, values_list))
-            print(my_dict)
-        else:
-            a = len(values_list) - len(names_list)
-            b = []
-            for i in range(a+1):
-                k = 8 + i
-                b.append(values_list[k])
-            for z in range(a):
-                values_list.pop(8)
-            values_list[8] = ";\n".join(b)
-            my_dict = dict(zip(my_list_all, values_list))
-        return my_dict
+        name_list = my_list_all
+        return name_list
 
+
+def union_dict(name_list):
+    if len(names_list) == len(values_list):
+        my_dict = dict(zip(name_list, values_list))
+    else:
+        a = len(values_list) - len(names_list)
+        b = []
+        for i in range(a+1):
+            k = 8 + i
+            b.append(values_list[k])
+        for z in range(a):
+            values_list.pop(8)
+        values_list[8] = ";\n".join(b)
+        my_dict = dict(zip(name_list, values_list))
+    return my_dict
 
 def okved(ogrn):
     okv_list = []
@@ -86,10 +78,20 @@ def okved(ogrn):
     return okv_dict
 
 
+def full_dict(dict_1, dict_2):
+    full_dict = dict_1.update(dict_2)
+    return(full_dict)
+
+
+def enter():
+    requisites(ogrn)
+    pprint(union_dict(check_form(names_list)))
+    print(okved(ogrn))
+    print(values_list)
+
+
 def main():
-    requisites(1033500349618)
-    pprint(union_dict())
-    print(okved(1033500349618))
+    pprint(enter())
 
 
 if __name__ == '__main__':

@@ -35,3 +35,39 @@ def okved(ogrn):
     return okv_dict
 
 print(okved(1165047052202))
+
+# def check_form(names_list):
+#     if 'Форма' in names_list:
+#     else:
+#         return my_list_all
+
+# def union_dict():
+#     if 'Форма' in names_list:
+#         if len(names_list) == len(values_list):
+#             my_dict = dict(zip(my_list_all_form, values_list))
+#         else:
+#             a = len(values_list) - len(names_list)
+#             b = []
+#             for i in range(a+1):
+#                 k = 8 + i
+#                 b.append(values_list[k])
+#             for z in range(a):
+#                 values_list.pop(8)
+#             values_list[8] = ";\n".join(b)
+#             my_dict = dict(zip(my_list_all, values_list))
+#         return my_dict
+#     else:
+#         if len(names_list) == len(values_list):
+#             my_dict = dict(zip(my_list_all, values_list))
+#             print(my_dict)
+#         else:
+#             a = len(values_list) - len(names_list)
+#             b = []
+#             for i in range(a+1):
+#                 k = 8 + i
+#                 b.append(values_list[k])
+#             for z in range(a):
+#                 values_list.pop(8)
+#             values_list[8] = ";\n".join(b)
+#             my_dict = dict(zip(my_list_all, values_list))
+#         return my_dict
