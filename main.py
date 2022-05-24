@@ -9,8 +9,10 @@ from data import my_list_all, my_list_all_form, HEADERS, base_url
 values_list = []
 names_list = []
 
+
 ooo = [1165047052202, 1033500349618]
 ogrn = input(str('введите огрн'))
+
 
 def requisites(ogrn):
     url = base_url + f'{str(ogrn)}/requisites/'

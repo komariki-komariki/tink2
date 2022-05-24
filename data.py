@@ -12,6 +12,11 @@ my_list_all_form = ['full_name', 'short_name', 'inn', 'ogrn', 'kpp',
                'date_of_registration', 'name_pfr',
                'reg_number_fss', 'date_of_registration_fss',
                'name_fss']
+my_list_ip = ['full_name', 'inn', 'ogrn', 'date_of_registration', 'form',
+              'date_of_registration', 'ifns', 'adress_ifns',
+              'reg_pfr', 'Дdate_of_registration_fss',
+              'name_fss']
+
 HEADERS = {
     'Cookie': '_ym_uid=1639148487334283574; _ym_d=1639149414; _ga=GA1.'
               '2.528119004.1639149415; _gid=GA1.2.512914915.'
